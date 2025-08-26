@@ -22,17 +22,38 @@ identifier [a-z_][a-z_{digit}]*
 "retorna" { return TK_RETORNA; }
 "enquanto" { return TK_ENQUANTO; }
 "com" { return TK_COM; }
+
 "<=" { return TK_OC_LE; }
 ">=" { return TK_OC_GE; }
 "==" { return TK_OC_EQ; }
 "!=" { return TK_OC_NE; }
 ":=" { return TK_ATRIB; }
 "->" { return TK_SETA; }
+
 {identifier} { return TK_ID; }
-{integer} { return TK_LI_INTEIRO; }
 {decimal} { return TK_LI_DECIMAL; }
+{integer} { return TK_LI_INTEIRO; }
 {comment} { }
 {blank} { }
+
+"!" { return yytext[0]; }
+"*" { return yytext[0]; }
+"/" { return yytext[0]; }
+"%" { return yytext[0]; }
+"+" { return yytext[0]; }
+"-" { return yytext[0]; }
+"<" { return yytext[0]; }
+">" { return yytext[0]; }
+"[" { return yytext[0]; }
+"]" { return yytext[0]; }
+"(" { return yytext[0]; }
+")" { return yytext[0]; }
+"=" { return yytext[0]; }
+"," { return yytext[0]; }
+";" { return yytext[0]; }
+"&" { return yytext[0]; }
+"|" { return yytext[0]; }
+
 . { return TK_ER; }
 
 %%
