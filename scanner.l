@@ -4,6 +4,7 @@
 
 %option yylineno
 
+blank [ \t]+
 digit [0-9]
 integer {digit}+
 decimal {integer}?"."{integer}
@@ -31,6 +32,8 @@ identifier [a-z_][a-z_{digit}]*
 {integer} { return TK_LI_INTEIRO; }
 {decimal} { return TK_LI_DECIMAL; }
 {comment} { }
+{blank} { }
+. { return TK_ER; }
 
 %%
 
