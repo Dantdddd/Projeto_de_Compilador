@@ -1,15 +1,31 @@
 %{
-#include "tokens.h";
+#include "tokens.h"
 %}
 
+/* Ativa yylineno para realizar contagem de linhas */
 %option yylineno
 
-blank [ \t]+
+/* noyywrap, noinput e nounput evitam warnings na compilacao */
+%option noyywrap
+%option noinput nounput
+
+/* Definicao de caracteres vazios */
+blank [ \t]+    
+
+/* Integers sao uma combinacao de digits (0-9) e decimals sao integers que incluem um "." que representa a virgula */
 digit [0-9]
 integer {digit}+
 decimal {integer}?"."{integer}
+
+/* Comments sao qualquer sequencia de caracteres que comecam com "//" e vao ate quebra de linha */
 comment "//".*
-identifier [a-z_][a-z_{digit}]*
+
+/* Definicao de identifiers, que comecam com um caracter minusculo do alfabeto ou "_" e sao seguidos de outros caracteres minusculos, digitos ou underline */
+identifier [a-z_][a-z0-9_]*
+
+/* Definicoes para quebra de linha e caracteres especiais */
+newline \n
+specialchars [!*\/%+\-<>\[\]\(\)=,;&|;]
 
 %%
 
@@ -33,31 +49,18 @@ identifier [a-z_][a-z_{digit}]*
 {identifier} { return TK_ID; }
 {decimal} { return TK_LI_DECIMAL; }
 {integer} { return TK_LI_INTEIRO; }
+
+{newline} { }
+{specialchars} { return yytext[0]; }
+
 {comment} { }
 {blank} { }
-
-"!" { return yytext[0]; }
-"*" { return yytext[0]; }
-"/" { return yytext[0]; }
-"%" { return yytext[0]; }
-"+" { return yytext[0]; }
-"-" { return yytext[0]; }
-"<" { return yytext[0]; }
-">" { return yytext[0]; }
-"[" { return yytext[0]; }
-"]" { return yytext[0]; }
-"(" { return yytext[0]; }
-")" { return yytext[0]; }
-"=" { return yytext[0]; }
-"," { return yytext[0]; }
-";" { return yytext[0]; }
-"&" { return yytext[0]; }
-"|" { return yytext[0]; }
 
 . { return TK_ER; }
 
 %%
 
+/* Utiliza yylineno para retornar a contagem de linhas */
 int get_line_number() {
     return yylineno;
 }

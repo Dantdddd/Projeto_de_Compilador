@@ -4,16 +4,16 @@ CFLAGS = -Wall -g
 
 LEX_SRC = scanner.l
 LEX_OUT = lex.yy.c
-MAIN = main.c
+MAIN = $(filter-out $(LEX_OUT), $(wildcard *.c))
 EXEC = etapa1
 
 all: $(EXEC)
 
 $(EXEC): $(MAIN) $(LEX_OUT)
-	$(CC) $(CFLAGS) -o $(EXEC) $(MAIN) $(LEX_OUT) -lfl
+	$(CC) $(CFLAGS) -o $@ $(MAIN) $(LEX_OUT) -lfl
 
 $(LEX_OUT): $(LEX_SRC)
-	$(FLEX) $(LEX_SRC)
+	$(FLEX) $<
 
 clean:
 	rm -f $(EXEC) $(LEX_OUT)
