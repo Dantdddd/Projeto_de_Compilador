@@ -1,5 +1,5 @@
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -514,7 +514,7 @@ char *yytext;
 #line 1 "scanner.l"
 #line 2 "scanner.l"
 #include "tokens.h"
-#line 517 "lex.yy.c"
+#line 518 "lex.yy.c"
 /* Ativa yylineno para realizar contagem de linhas */
 /* noyywrap, noinput e nounput evitam warnings na compilacao */
 #define YY_NO_INPUT 1
@@ -523,7 +523,7 @@ char *yytext;
 /* Comments sao qualquer sequencia de caracteres que comecam com "//" e vao ate quebra de linha */
 /* Definicao de identifiers, que comecam com um caracter minusculo do alfabeto ou "_" e sao seguidos de outros caracteres minusculos, digitos ou underline */
 /* Definicoes para quebra de linha e caracteres especiais */
-#line 526 "lex.yy.c"
+#line 527 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -741,7 +741,7 @@ YY_DECL
 #line 30 "scanner.l"
 
 
-#line 744 "lex.yy.c"
+#line 745 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -929,7 +929,7 @@ YY_RULE_SETUP
 #line 61 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 932 "lex.yy.c"
+#line 933 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
