@@ -1,0 +1,12 @@
+inteiro
+decimal
+
+<=
+//
+
+tip
+ti
+1.3.24
+//.
+````-__
+123abc
