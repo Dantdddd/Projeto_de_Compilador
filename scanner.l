@@ -1,5 +1,5 @@
 %{
-#include "tokens.h"
+#include "parser.tab.h"
 %}
 
 /* Ativa yylineno para realizar contagem de linhas */
@@ -24,8 +24,8 @@ comment "//".*
 identifier [a-z_][a-z0-9_]*
 
 /* Definicoes para quebra de linha e caracteres especiais */
-newline \n
-specialchars [!*\/%+\-<>\[\]\(\)=,;&|;]
+newline (\r?\n)
+specialchars [!*\/%+\-<>\[\]\(\)=,;&|]
 
 %%
 
