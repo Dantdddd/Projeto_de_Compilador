@@ -1,5 +1,4 @@
 %{
-#include <stdio.h>
 #include "parser.tab.h"
 %}
 
@@ -25,8 +24,8 @@ comment "//".*
 identifier [a-z_][a-z0-9_]*
 
 /* Definicoes para quebra de linha e caracteres especiais */
-newline \n
-specialchars [!*\/%+\-<>\[\]\(\)=,;&|;]
+newline (\r?\n)
+specialchars [!*\/%+\-<>\[\]\(\)=,;&|]
 
 %%
 
