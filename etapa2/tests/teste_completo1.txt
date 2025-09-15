@@ -1,0 +1,101 @@
+// Teste completo explorando todas as funcionalidades da linguagem.
+// Agora cobrindo inclusive operadores compostos, OU lógico, 
+// inicialização com inteiro, função retornando decimal e chamada sem argumentos.
+
+// Declaração de variável global (sem inicialização, como manda a regra)
+var g_variavel_inteira := inteiro,
+
+// Função sem parâmetros (retorno decimal, para testar)
+funcao_constante -> decimal :=
+[
+    retorna 3.14 := decimal
+],
+
+// Definição de uma função com múltiplos parâmetros.
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    // Declaração de variável local sem inicialização.
+    var resultado := inteiro
+
+    // Comando de atribuição com expressão aritmética.
+    resultado := a + b * 2
+
+    // Comando de retorno com expressão.
+    retorna resultado := inteiro
+],
+
+// Definição da função principal, sem parâmetros.
+principal -> inteiro :=
+[
+    // Declaração de variáveis locais.
+    var contador := inteiro
+    var resultado_decimal := decimal com 1.0
+    var inicializado_inteiro := inteiro com 42
+
+    // Comando de atribuição com literal inteiro.
+    contador := -contador + (+inicializado_inteiro)
+    contador := 0
+    g_variavel_inteira := 100
+
+    // Comando de controle de fluxo: ENQUANTO.
+    enquanto (contador < 10 & !(g_variavel_inteira == 0))
+    [
+        // Comando de controle de fluxo: SE / SENAO.
+        // Aqui usamos todos os operadores compostos e o OU (|).
+        se ((contador <= 5) | (g_variavel_inteira >= 50))
+        [
+            resultado_decimal := (soma_e_multiplica(contador, contador + 1) * 3) / 2.0
+        ]
+        senao
+        [
+            // Teste de operadores compostos restantes.
+            se (contador != 7)
+            [
+                resultado_decimal := funcao_constante()  // chamada sem argumentos
+            ]
+            senao
+            [
+                resultado_decimal := 0.0
+            ]
+        ]
+
+        // Atribuição com expressão para incrementar o contador.
+        contador := contador + 1
+    ]
+
+    // Comando de retorno com valor literal.
+    retorna 0 := inteiro
+];
+
+
+//| Categoria                          | Exigência (E2)                  | Onde aparece no programa                                       |                                                     |       |
+//| ---------------------------------- | ---------------------------------- | -------------------------------------------------------------- | --------------------------------------------------- | ----- |
+//| **Declarações globais**            | Variável global sem inicialização  | `var g_variavel_inteira := inteiro`                            |                                                     |       |
+//| **Funções**                        | Definição com múltiplos parâmetros | `soma_e_multiplica -> inteiro com a := inteiro, b := inteiro`  |                                                     |       |
+//|                                    | Função sem parâmetros              | `funcao_constante -> decimal`                                  |                                                     |       |
+//|                                    | Retorno `inteiro`                  | `soma_e_multiplica` e `principal`                              |                                                     |       |
+//|                                    | Retorno `decimal`                  | `funcao_constante`                                             |                                                     |       |
+//|                                    | Chamada de função com argumentos   | `soma_e_multiplica(contador, contador + 1)`                    |                                                     |       |
+//|                                    | Chamada de função sem argumentos   | `funcao_constante()`                                           |                                                     |       |
+//| **Declaração de variáveis locais** | Sem inicialização                  | `var resultado := inteiro`                                     |                                                     |       |
+//|                                    | Inicialização com literal inteiro  | `var inicializado_inteiro := inteiro com 42`                   |                                                     |       |
+//|                                    | Inicialização com literal decimal  | `var resultado_decimal := decimal com 1.0`                     |                                                     |       |
+//| **Literais**                       | Inteiro                            | `42`, `0`, `100`, `7`, etc.                                    |                                                     |       |
+//|                                    | Decimal                            | `1.0`, `2.0`, `3.14`, `0.0`                                    |                                                     |       |
+//| **Atribuições**                    | Simples com literal                | `contador := 0`, `g_variavel_inteira := 100`                   |                                                     |       |
+//|                                    | Com expressão aritmética           | `resultado := a + b * 2`                                       |                                                     |       |
+//|                                    | Com chamada de função              | `resultado_decimal := soma_e_multiplica(...)`                  |                                                     |       |
+//|                                    | Expressão complexa                 | `(soma_e_multiplica(...) * 3) / 2.0`                           |                                                     |       |
+//| **Controle de fluxo**              | Enquanto                           | `enquanto (contador < 10 & !(g_variavel_inteira == 0)) [...]`  |                                                     |       |
+//|                                    | Se / Senao                         | \`se ((contador <= 5)                                          | (g\_variavel\_inteira >= 50)) \[...] senao \[...]\` |       |
+//|                                    | Bloco vazio                        | (no primeiro código, mas pode ser recolocado se quiser)        |                                                     |       |
+//| **Operadores Unários**             | Negação lógica `!`                 | `!(g_variavel_inteira == 0)`                                   |                                                     |       |
+//|                                    | Mais unário `+`                    | (não está explícito, mas pode ser adicionado como `+contador`) |                                                     |       |
+//|                                    | Menos unário `-`                   | (não está explícito, pode ser adicionado como `-contador`)     |                                                     |       |
+//| **Operadores Binários**            | Aritméticos básicos `+ - * / %`    | usados em várias expressões (`a + b * 2`, `%`, `/ 2.0`)        |                                                     |       |
+//|                                    | Comparação `< > <= >=`             | `contador < 10`, `contador <= 5`, `g_variavel_inteira >= 50`   |                                                     |       |
+//|                                    | Igualdade `== !=`                  | `g_variavel_inteira == 0`, `contador != 7`                     |                                                     |       |
+//|                                    | Lógicos \`&                        | \`                                                             | `contador < 10 & ...`, \`(contador <= 5)            | ...\` |
+//| **Retornos**                       | Com literal inteiro                | `retorna 0 := inteiro`                                         |                                                     |       |
+//|                                    | Com literal decimal                | `retorna 3.14 := decimal`                                      |                                                     |       |
+//|                                    | Com expressão                      | `retorna resultado := inteiro`                                 |                                                     |       |

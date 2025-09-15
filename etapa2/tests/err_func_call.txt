@@ -1,0 +1,7 @@
+// Erro: falta dos parênteses na chamada
+principal -> inteiro :=
+[
+    var x := inteiro
+    x := soma;   // deveria ser soma()
+    retorna 0 := inteiro
+];

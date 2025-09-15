@@ -1,0 +1,25 @@
+soma -> inteiro := [
+    var resultado := inteiro com 0
+    var a := inteiro com 2
+    var b := inteiro com 5
+    resultado := a + b
+    retorna resultado := inteiro
+],
+
+f -> inteiro := [ 
+    
+ ],
+
+soma2 -> inteiro com x := inteiro, y := decimal := [ ],
+
+principal -> inteiro := [
+
+    var resultado := inteiro
+    resultado := soma(   )
+
+    retorna resultado := inteiro
+];
+
+
+
+

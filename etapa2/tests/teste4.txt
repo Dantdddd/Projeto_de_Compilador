@@ -1,0 +1,11 @@
+abc
+_variavel
+x1
+teste123
+_valor9
+
+
+
+
+.5
+123.
