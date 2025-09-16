@@ -73,6 +73,7 @@ atribuicao_variavel: TK_ID TK_ATRIB expressao;
 definicao_funcao: TK_ID TK_SETA tipo lista_parametros_opcional TK_ATRIB bloco_comandos;
 lista_parametros_opcional: %empty;
 lista_parametros_opcional: TK_COM lista_parametros;
+lista_parametros_opcional: lista_parametros
 lista_parametros: elemento_lista_parametros;
 lista_parametros: elemento_lista_parametros ',' lista_parametros;
 elemento_lista_parametros: TK_ID TK_ATRIB tipo;
@@ -123,6 +124,7 @@ expressao_nv1: '+' operando;
 expressao_nv1: '-' operando;
 expressao_nv1: '!' operando;
 
+/********** Expressoes Nv 0 */
 operando: TK_ID;
 operando: literal;
 operando: chamada_funcao;
