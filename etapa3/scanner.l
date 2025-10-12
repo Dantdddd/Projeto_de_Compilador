@@ -1,5 +1,7 @@
 %{
 #include "parser.tab.h"
+
+valor_lexico_t* cria_valor_lexico(int linha, TipoToken tipo, const char* texto);
 %}
 
 /* Ativa yylineno para realizar contagem de linhas */
@@ -46,9 +48,20 @@ specialchars [!*\/%+\-<>\[\]\(\)=,;&|]
 ":=" { return TK_ATRIB; }
 "->" { return TK_SETA; }
 
-{identifier} { return TK_ID; }
-{decimal} { return TK_LI_DECIMAL; }
-{integer} { return TK_LI_INTEIRO; }
+{identifier} { 
+    yylval.valor_lexico = cria_valor_lexico(yylineno, TK_TIPO_ID, yytext); 
+    return TK_ID; 
+}
+
+{decimal} { 
+    yylval.valor_lexico = cria_valor_lexico(yylineno, TK_DECIMAL, yytext);
+    return TK_LI_DECIMAL; 
+}
+
+{integer} { 
+    yylval.valor_lexico = cria_valor_lexico(yylineno, TK_INTEIRO, yytext);
+    return TK_LI_INTEIRO; 
+}
 
 {newline} { }
 {specialchars} { return yytext[0]; }
@@ -59,6 +72,13 @@ specialchars [!*\/%+\-<>\[\]\(\)=,;&|]
 . { return TK_ER; }
 
 %%
+valor_lexico_t* cria_valor_lexico(int linha, TipoToken tipo, const char* texto) {
+    valor_lexico_t* v = (valor_lexico_t*) malloc(sizeof(valor_lexico_t));
+    v->linha = linha;
+    v->tipo = tipo;
+    v->valor = strdup(texto);
+    return v;
+}
 
 /* Utiliza yylineno para retornar a contagem de linhas */
 int get_line_number() {

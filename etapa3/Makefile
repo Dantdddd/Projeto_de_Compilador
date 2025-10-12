@@ -1,7 +1,7 @@
 CC = gcc
 FLEX = flex
 BISON = bison
-CFLAGS = -Wall -Werror -fsanitize=address
+CFLAGS = -Wall -Werror -fsanitize=address -fsanitize=address
 
 # No MacOS tem um Bison 2.3 instalado.
 # Muda o path do Bison para o instalado pelo Homebrew (Versao 3.8.2)
