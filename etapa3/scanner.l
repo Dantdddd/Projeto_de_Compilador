@@ -72,13 +72,15 @@ specialchars [!*\/%+\-<>\[\]\(\)=,;&|]
 . { return TK_ER; }
 
 %%
-valor_lexico_t* cria_valor_lexico(int linha, TipoToken tipo, const char* texto) {
-    valor_lexico_t* v = (valor_lexico_t*) malloc(sizeof(valor_lexico_t));
+valor_lexico_t* cria_valor_lexico(int linha, TipoToken tipo, const char* valor_src) {
+    valor_lexico_t* v = malloc(sizeof(valor_lexico_t));
     v->linha = linha;
     v->tipo = tipo;
-    v->valor = strdup(texto);
+    v->valor = strdup(valor_src);
+    fprintf(stderr, "[LEX] cria_valor_lexico: valor_lexico=%p valor=%p ('%s')\n", (void*)v, (void*)v->valor, v->valor);
     return v;
 }
+
 
 /* Utiliza yylineno para retornar a contagem de linhas */
 int get_line_number() {
