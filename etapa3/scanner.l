@@ -77,7 +77,7 @@ valor_lexico_t* cria_valor_lexico(int linha, TipoToken tipo, const char* valor_s
     v->linha = linha;
     v->tipo = tipo;
     v->valor = strdup(valor_src);
-    fprintf(stderr, "[LEX] cria_valor_lexico: valor_lexico=%p valor=%p ('%s')\n", (void*)v, (void*)v->valor, v->valor);
+    //fprintf(stderr, "[LEX] cria_valor_lexico: valor_lexico=%p valor=%p ('%s')\n", (void*)v, (void*)v->valor, v->valor);
     return v;
 }
 

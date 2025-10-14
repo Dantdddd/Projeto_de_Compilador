@@ -31,4 +31,8 @@ void asd_print(asd_tree_t *tree);
  * Função asd_print_graphviz, idem, em formato DOT
  */
 void asd_print_graphviz (asd_tree_t *tree);
+
+void _asd_print_pretty(asd_tree_t *tree, int depth);
+
+void asd_print_pretty(asd_tree_t *tree);
 #endif //_ASD_H_

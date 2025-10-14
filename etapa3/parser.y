@@ -37,9 +37,9 @@ extern int yylineno;
 %type <arvore> declaracao_variavel_local atribuicao_variavel chamada_funcao programa lista
 %type <arvore> elemento_lista definicao_funcao bloco_comandos declaracao_variavel_global
 %type <arvore> lista_comandos elementos_lista_comandos literal retorno_funcao expressao
-%type <arvore> lista_argumentos_opcional lista_parametros_opcional lista_parametros
+%type <arvore> lista_argumentos_opcional  
 %type <arvore> expressao_nv6 expressao_nv5 expressao_nv4 expressao_nv3 expressao_nv2 expressao_nv1 operando
-%type <arvore> lista_argumentos elemento_lista_parametros 
+%type <arvore> lista_argumentos  
 
 
 %define parse.error verbose
@@ -73,7 +73,9 @@ programa: %empty {
 /********************** Definicao de lista */
 lista: elemento_lista {
     printf("Linha 75 (yylineno=%d)\n", yylineno);
-    $$ = $1;
+    if ($1){
+        $$ = $1;
+    }
 };
 lista: lista ',' elemento_lista { 
     if ($1 && $3){
@@ -89,23 +91,33 @@ lista: lista ',' elemento_lista {
     }
 };
 
-elemento_lista: declaracao_variavel_global { printf("Linha 85 (yylineno=%d)\n", yylineno); $$ = $1; };
-elemento_lista: definicao_funcao { printf("Linha 86 (yylineno=%d)\n", yylineno); $$ = $1; };
+elemento_lista: declaracao_variavel_global { printf("Linha 85 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+elemento_lista: definicao_funcao { printf("Linha 86 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
 
 /********************** Bloco de comandos */
-bloco_comandos: '[' lista_comandos ']' { printf("Linha 90 (yylineno=%d)\n", yylineno); if ($2) $$ = $2; };
+bloco_comandos: '[' lista_comandos ']' { printf("Linha 90 (yylineno=%d)\n", yylineno); 
+if ($2) $$ = $2; };
 
-lista_comandos: %empty { printf("Linha 93 (yylineno=%d)\n", yylineno); $$ = NULL; };
-lista_comandos: elementos_lista_comandos { printf("Linha 94 (yylineno=%d)\n", yylineno); $$ = $1; };
+lista_comandos: %empty { printf("Linha 93 (yylineno=%d)\n", yylineno); 
+};
+lista_comandos: elementos_lista_comandos { printf("Linha 94 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
 
-elementos_lista_comandos: comando { printf("Linha 97 (yylineno=%d)\n", yylineno); if($1) $$ = $1; };
+elementos_lista_comandos: comando { printf("Linha 97 (yylineno=%d)\n", yylineno); 
+if($1) $$ = $1; };
 elementos_lista_comandos: elementos_lista_comandos comando {
     printf("Linha 100 (yylineno=%d)\n", yylineno);
-    if($1 && $2) {
+    printf("%p, %p\n", $1, $2);
+    if ($1 && $2) {
+        printf("%s\n", $1->label);
+        printf("%s\n", $1->label);
+
         asd_add_child($1, $2);
         $$ = $1;
     }
-    else if($2) {
+    else if ($2) {
         $$ = $2;
     }
     else if ($1) {
@@ -113,15 +125,24 @@ elementos_lista_comandos: elementos_lista_comandos comando {
     }
 };
 
-comando: bloco_comandos { printf("Linha 112 (yylineno=%d)\n", yylineno); $$ = $1; };
-comando: declaracao_variavel_global { printf("Linha 113 (yylineno=%d)\n", yylineno); $$ = $1; };
-comando: declaracao_variavel_local { printf("Linha 114 (yylineno=%d)\n", yylineno); $$ = $1; };
-comando: atribuicao_variavel { printf("Linha 115 (yylineno=%d)\n", yylineno); $$ = $1; };
-comando: chamada_funcao { printf("Linha 116 (yylineno=%d)\n", yylineno); $$ = $1; };
-comando: controle_fluxo_se { printf("Linha 117 (yylineno=%d)\n", yylineno); $$ = $1; };
-comando: controle_fluxo_se_e_senao { printf("Linha 118 (yylineno=%d)\n", yylineno); $$ = $1; };
-comando: controle_fluxo_repeticao { printf("Linha 119 (yylineno=%d)\n", yylineno); $$ = $1; };
-comando: retorno_funcao { printf("Linha 120 (yylineno=%d)\n", yylineno); $$ = $1; };
+comando: bloco_comandos { printf("Linha 112 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+comando: declaracao_variavel_global { printf("Linha 113 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+comando: declaracao_variavel_local { printf("Linha 114 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+comando: atribuicao_variavel { printf("Linha 115 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+comando: chamada_funcao { printf("Linha 116 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+comando: controle_fluxo_se { printf("Linha 117 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+comando: controle_fluxo_se_e_senao { printf("Linha 118 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+comando: controle_fluxo_repeticao { printf("Linha 119 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+comando: retorno_funcao { printf("Linha 120 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
 
 /********************** Declaracao de variaveis globais*/
 literal: TK_LI_DECIMAL {
@@ -138,12 +159,15 @@ literal: TK_LI_INTEIRO{
     free($1);
 };
 
-tipo: TK_INTEIRO { printf("Linha 139 (yylineno=%d)\n", yylineno); };
-tipo: TK_DECIMAL { printf("Linha 140 (yylineno=%d)\n", yylineno); };
+tipo: TK_INTEIRO { printf("Linha 139 (yylineno=%d)\n", yylineno); 
+};
+tipo: TK_DECIMAL { printf("Linha 140 (yylineno=%d)\n", yylineno); 
+};
 
 declaracao_variavel_global: TK_VAR TK_ID TK_ATRIB tipo {
     printf("Linha 143 (yylineno=%d)\n", yylineno);
     $$ = NULL;
+
     free($2->valor);
     free($2);
 };
@@ -165,7 +189,9 @@ atribuicao_variavel: TK_ID TK_ATRIB expressao {
     $$ = asd_new(":=");
     asd_tree_t* buffer = asd_new($1->valor);
     asd_add_child($$, buffer);
-    asd_add_child($$, $3);
+    if ($3){
+        asd_add_child($$, $3);
+    }
     free($1->valor);
     free($1);
 };
@@ -179,35 +205,30 @@ definicao_funcao: TK_ID TK_SETA tipo lista_parametros_opcional TK_ATRIB bloco_co
     free($1);
 };
 
-lista_parametros_opcional: %empty { printf("Linha 181 (yylineno=%d)\n", yylineno); $$ = NULL; };
-lista_parametros_opcional: TK_COM lista_parametros { printf("Linha 182 (yylineno=%d)\n", yylineno); $$ = $2; };
-lista_parametros_opcional: lista_parametros { printf("Linha 183 (yylineno=%d)\n", yylineno); $$ = $1; };
+lista_parametros_opcional: %empty { printf("Linha 181 (yylineno=%d)\n", yylineno); 
+};
+lista_parametros_opcional: TK_COM lista_parametros { printf("Linha 182 (yylineno=%d)\n", yylineno); 
+ };
+lista_parametros_opcional: lista_parametros { printf("Linha 183 (yylineno=%d)\n", yylineno); 
+ };
 
-lista_parametros: elemento_lista_parametros { printf("Linha 186 (yylineno=%d)\n", yylineno); $$ = $1; };
+lista_parametros: elemento_lista_parametros { printf("Linha 186 (yylineno=%d)\n", yylineno); 
+ };
 lista_parametros: lista_parametros ',' elemento_lista_parametros {
     printf("Linha 188 (yylineno=%d)\n", yylineno);
-    if ($1 && $3){
-        asd_add_child($1, $3);
-        $$ = $1;
-    }
-    else if ($3) {
-        $$ = $3;
-    }
-    else if ($1) {
-        $$ = $1;
-    }
+    
 };
 
 elemento_lista_parametros: TK_ID TK_ATRIB tipo {
-    printf("Linha 194 (yylineno=%d)\n", yylineno);
-    $$ = asd_new($1->valor);
+    //printf("Linha 194 (yylineno=%d)\n", yylineno);
+
     free($1->valor);
     free($1);
 };
 
 /*********************** Chamada de funcao */
 chamada_funcao: TK_ID '(' lista_argumentos_opcional ')' {
-    printf("Linha 202 (yylineno=%d)\n", yylineno);
+    //printf("Linha 202 (yylineno=%d)\n", yylineno);
     free($1->valor);
     free($1);
     if ($3){
@@ -219,10 +240,13 @@ chamada_funcao: TK_ID '(' lista_argumentos_opcional ')' {
     }
 };
 
-lista_argumentos_opcional: %empty { printf("Linha 213 (yylineno=%d)\n", yylineno); $$ = NULL; };
-lista_argumentos_opcional: lista_argumentos { printf("Linha 214 (yylineno=%d)\n", yylineno); $$ = $1; };
+lista_argumentos_opcional: %empty { printf("Linha 213 (yylineno=%d)\n", yylineno); 
+};
+lista_argumentos_opcional: lista_argumentos { printf("Linha 214 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
 
-lista_argumentos: expressao { printf("Linha 217 (yylineno=%d)\n", yylineno); $$ = $1; };
+lista_argumentos: expressao { printf("Linha 217 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
 lista_argumentos: lista_argumentos ',' expressao {
     printf("Linha 219 (yylineno=%d)\n", yylineno);
     if ($1 && $3){
@@ -249,7 +273,9 @@ controle_fluxo_se_e_senao: TK_SE '(' expressao ')' bloco_comandos TK_SENAO bloco
     printf("Linha 249 (yylineno=%d)\n", yylineno);
     $$ = asd_new("se");
     asd_add_child($$, $3);
-    asd_add_child($$, $5);
+    if ($5){
+        asd_add_child($$, $5);
+    }
     if ($7){
         asd_add_child($$, $7);
     }
@@ -274,7 +300,8 @@ controle_fluxo_repeticao: TK_ENQUANTO '(' expressao ')' bloco_comandos {
 };
 
 /********************** Expressoes */
-expressao: expressao_nv6 { printf("Linha 254 (yylineno=%d)\n", yylineno); $$ = $1; };
+expressao: expressao_nv6 { printf("Linha 254 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
 expressao: expressao '|' expressao_nv6 {
     printf("Linha 256 (yylineno=%d)\n", yylineno);
     $$ = asd_new("|");
@@ -373,9 +400,12 @@ operando: TK_ID {
     free($1->valor);
     free($1);
 };
-operando: literal { printf("Linha 368 (yylineno=%d)\n", yylineno); $$ = $1; };
-operando: chamada_funcao { printf("Linha 369 (yylineno=%d)\n", yylineno); $$ = $1; };
-operando: '(' expressao ')' { printf("Linha 370 (yylineno=%d)\n", yylineno); $$ = $2; };
+operando: literal { printf("Linha 368 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+operando: chamada_funcao { printf("Linha 369 (yylineno=%d)\n", yylineno); 
+$$ = $1; };
+operando: '(' expressao ')' { printf("Linha 370 (yylineno=%d)\n", yylineno); 
+$$ = $2; };
 
 %%
 
