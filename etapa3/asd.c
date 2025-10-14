@@ -8,7 +8,6 @@ asd_tree_t *asd_new(const char *label)
   asd_tree_t *ret = NULL;
   ret = calloc(1, sizeof(asd_tree_t));
   if (ret != NULL){
-    printf("Nodo adicionado: %s\n", label);
     ret->label = strdup(label);
     ret->number_of_children = 0;
     ret->children = NULL;
@@ -37,7 +36,6 @@ void asd_add_child(asd_tree_t *tree, asd_tree_t *child)
     tree->number_of_children++;
     tree->children = realloc(tree->children, tree->number_of_children * sizeof(asd_tree_t*));
     tree->children[tree->number_of_children-1] = child;
-    asd_print_pretty(tree);
   }else{
     printf("Erro: %s recebeu parâmetro tree = %p / %p.\n", __FUNCTION__, tree, child);
   }
@@ -90,32 +88,4 @@ void asd_print_graphviz(asd_tree_t *tree)
   }else{
     printf("Erro: %s recebeu parâmetro tree = %p.\n", __FUNCTION__, tree);
   }
-}
-
-void _asd_print_pretty(asd_tree_t *tree, int depth)
-{
-    if (tree == NULL)
-        return;
-
-    // Prefixo visual com hífens de acordo com o nível
-    for (int i = 0; i < depth; i++)
-        printf("-");
-
-    // Imprime o rótulo do nó
-    printf("%s\n", tree->label);
-
-    // Recursivamente imprime os filhos com indentação maior
-    for (int i = 0; i < tree->number_of_children; i++)
-        _asd_print_pretty(tree->children[i], depth + 1);
-}
-
-void asd_print_pretty(asd_tree_t *tree)
-{
-    if (tree == NULL) {
-        printf("Erro: %s recebeu parâmetro tree = %p.\n", __FUNCTION__, tree);
-        return;
-    }
-
-    printf("Árvore Sintática Abstrata:\n");
-    _asd_print_pretty(tree, 0);
 }

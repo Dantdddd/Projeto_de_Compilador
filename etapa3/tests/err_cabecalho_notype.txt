@@ -1,0 +1,5 @@
+// Erro: tipo faltando no cabeçalho
+soma -> com a := inteiro :=
+[
+    retorna 0 := inteiro
+];

@@ -1,0 +1,2 @@
+// Versão correta: lista sem vírgula extra
+var g := inteiro;

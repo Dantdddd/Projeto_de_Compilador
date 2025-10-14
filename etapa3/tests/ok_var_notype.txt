@@ -1,0 +1,2 @@
+// Versão correta: declaração de variável com tipo
+var x := inteiro;

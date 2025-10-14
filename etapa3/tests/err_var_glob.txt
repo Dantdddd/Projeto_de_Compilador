@@ -1,0 +1,2 @@
+// Erro: global não pode ter 'com'
+var g := inteiro com 10;
