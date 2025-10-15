@@ -28,6 +28,9 @@ $(LEX_OUT): $(LEX_SRC)
 $(BISON_OUT) : $(BISON_SRC)
 	$(BISON) -d --report=all $<
 
+asd: asd.h asd.c asd_main.c
+	gcc -Wall -fsanitize=address -fsanitize=address asd.c asd_main.c -o asd
+
 clean:
 	rm -f $(EXEC) $(LEX_OUT) $(BISOUN_OUT)
 	rm -rf *.o
