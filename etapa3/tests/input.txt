@@ -1,0 +1,7 @@
+f -> inteiro :=
+[
+  [ ]
+  se (1) [ ]
+  senao [ ]
+  enquanto (1) [ ]
+];
