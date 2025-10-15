@@ -37,9 +37,9 @@ extern int yylineno;
 %type <arvore> declaracao_variavel_local atribuicao_variavel chamada_funcao programa lista
 %type <arvore> elemento_lista definicao_funcao bloco_comandos declaracao_variavel_global
 %type <arvore> lista_comandos elementos_lista_comandos literal retorno_funcao expressao
-%type <arvore> lista_argumentos_opcional  
+%type <arvore> lista_argumentos_opcional
 %type <arvore> expressao_nv6 expressao_nv5 expressao_nv4 expressao_nv3 expressao_nv2 expressao_nv1 operando
-%type <arvore> lista_argumentos  
+%type <arvore> lista_argumentos
 
 
 %define parse.error verbose
@@ -59,13 +59,11 @@ extern int yylineno;
 %%
 
 programa: lista ';' {
-    printf("Linha 62 (yylineno=%d)\n", yylineno);
     arvore = $1;
     $$ = $1;
 };
 
 programa: %empty {
-    printf("Linha 68 (yylineno=%d)\n", yylineno);
     arvore = NULL;
     $$ = NULL;
 };
@@ -75,10 +73,10 @@ lista: elemento_lista ',' lista {
     if ($1 && $3) {
         asd_add_child($1, $3);
         $$ = $1;
-    } 
+    }
     else if ($1) {
         $$ = $1;
-    } 
+    }
     else {
         $$ = $3;
     }
@@ -101,9 +99,6 @@ lista_comandos: elementos_lista_comandos { $$ = $1; };
 elementos_lista_comandos: comando { $$ = $1; };
 elementos_lista_comandos: comando elementos_lista_comandos {
     if ($1 && $2) {
-        printf("%s\n", $1->label);
-        printf("%s\n", $2->label);
-
         asd_add_child($1, $2);
         $$ = $1;
     }
@@ -197,20 +192,23 @@ elemento_lista_parametros: TK_ID TK_ATRIB tipo {
     free($1);
 };
 
-/*********************** Chamada de funcao */
 chamada_funcao: TK_ID '(' lista_argumentos_opcional ')' {
-    free($1->valor);
-    free($1);
-    if ($3){
-        $$ = asd_new("call");
+    char label[64];
+
+    sprintf(label, "call %s", $1->valor);
+
+    $$ = asd_new(label);
+
+    if ($3 != NULL){
         asd_add_child($$, $3);
     }
-    else {
-        $$ = NULL;
-    }
+
+    // 5. Liberar a memória do token, na ordem correta
+    free($1->valor);
+    free($1);
 };
 
-lista_argumentos_opcional: %empty;
+lista_argumentos_opcional: %empty {$$ = NULL;};
 lista_argumentos_opcional: lista_argumentos { $$ = $1; };
 
 lista_argumentos: expressao { $$ = $1; };
