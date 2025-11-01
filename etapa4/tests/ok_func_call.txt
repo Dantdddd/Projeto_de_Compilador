@@ -1,0 +1,2 @@
+// Versão correta: programa mínimo válido
+var contador := inteiro;

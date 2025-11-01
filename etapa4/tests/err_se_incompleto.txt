@@ -1,0 +1,6 @@
+// Erro: falta do bloco após SE
+principal -> inteiro :=
+[
+    se (1 < 2)
+    retorna 0 := inteiro
+];

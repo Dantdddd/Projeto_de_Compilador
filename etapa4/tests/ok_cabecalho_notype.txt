@@ -1,0 +1,2 @@
+// Versão correta: apenas declarações de variáveis globais (mais simples)
+var x := inteiro, var y := decimal;
