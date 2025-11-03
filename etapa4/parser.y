@@ -45,6 +45,7 @@
     } Parametro;
 
     typedef struct Simbolo {
+        char *chave;
         int natureza;
         TipoSimbolo tipo;
         Parametro *parametros;    // NULL se não for função
@@ -60,8 +61,13 @@
     extern TabelaSimbolos *tabela;
 
     TabelaSimbolos *tabela_criar(TabelaSimbolos *anterior);
-    Parametro *parametro_criar(const char *nome, TipoSimbolo tipo);
+    Simbolo *tabela_buscar(TabelaSimbolos *tabela, const char *nome);
+    void simbolos_destruir(Simbolo *simbolo);
+    void tabela_inserir_funcao(TabelaSimbolos *tabela, char *chave, int natureza, TipoSimbolo tipo, Parametro *params, Dado dado);
+    void tabela_destruir(TabelaSimbolos *tabela);
+    Parametro *parametro_criar(TipoSimbolo tipo, Dado dado);
     void parametros_destruir(Parametro *p);
+    Simbolo *tabela_buscar(TabelaSimbolos *tabela, const char *nome);
 }
 
 %{
@@ -424,7 +430,73 @@ TabelaSimbolos *tabela_criar(TabelaSimbolos *anterior) {
     return tabela;
 }
 
-Parametro *parametro_criar(const char *nome, TipoSimbolo tipo) {
+Parametro *parametro_criar(TipoSimbolo tipo, Dado dado) {
+    Parametro *p = malloc(sizeof(Parametro));
+    p->tipo = tipo;
+    p->dado = dado;
+    p->prox = NULL;
+    return p;
+}
 
+void parametros_destruir(Parametro *p) {
+    if (p != NULL){
+        parametros_destruir(p->prox);
+        free(p);
+    }
+}
 
+Simbolo *tabela_buscar(TabelaSimbolos *tabela, const char *nome) {
+    TabelaSimbolos *itera_tabela = tabela;
+    while (itera_tabela != NULL){
+        Simbolo *simbolo_atual = itera_tabela->primeiro;
+        while (simbolo_atual != NULL) {
+            if (strcmp(simbolo_atual->chave, nome) == 0){
+                return simbolo_atual;
+            }
+            else {
+                simbolo_atual = simbolo_atual->prox;
+            }
+        }
+        itera_tabela = itera_tabela->anterior;
+    }
+
+    return NULL;
+}
+
+void tabela_inserir_funcao(TabelaSimbolos *tabela, char *chave, int natureza, TipoSimbolo tipo, Parametro *params, Dado dado) {
+    if (tabela_buscar(tabela, chave) != NULL){
+        printf("Erro simbolo ja existe");
+        return;
+    }
+    
+    Simbolo *s = malloc(sizeof(Simbolo));
+    s->chave = chave;
+    s->natureza = natureza;
+    s->tipo = tipo;
+    s->parametros = params;
+    s->dado = dado;
+    s->prox = NULL;
+
+    Simbolo *localizacao_inserir = tabela->primeiro;
+    while (localizacao_inserir->prox != NULL){
+        localizacao_inserir = localizacao_inserir->prox;
+    }
+
+    localizacao_inserir->prox = s;
+}
+
+void simbolos_destruir(Simbolo *simbolo) {
+    if (simbolo != NULL) {
+        simbolos_destruir(simbolo->prox);
+        free(simbolo->chave);
+        parametros_destruir(simbolo->parametros);
+        free(simbolo);
+    }
+}
+
+void tabela_destruir(TabelaSimbolos *tabela) {
+    TabelaSimbolos *tabela_destruida = tabela;
+    tabela = tabela->anterior;
+    simbolos_destruir(tabela_destruida->primeiro);
+    free(tabela_destruida);
 }
