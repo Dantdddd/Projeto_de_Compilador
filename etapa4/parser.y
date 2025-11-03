@@ -5,6 +5,8 @@
     #define LITERAL 0
     #define IDENTIFICADOR 1
     #define FUNCAO 2
+    #define TIPO_INT 3
+    #define TIPO_FLOAT 4
 
     #define ERR_UNDECLARED       10 //2.2
     #define ERR_DECLARED         11 //2.2
@@ -22,11 +24,6 @@
         TK_TIPO_LITERAL
     } TipoToken;
 
-    typedef enum {
-        TIPO_INT,
-        TIPO_FLOAT
-    } TipoSimbolo;
-
     typedef union {
         int DadoInt;
         float DadoFloat;
@@ -39,7 +36,7 @@
     } valor_lexico_t;
 
     typedef struct Parametro {
-        TipoSimbolo tipo;
+        int tipo;
         Dado dado;
         struct Parametro *prox;
     } Parametro;
@@ -47,7 +44,7 @@
     typedef struct Simbolo {
         char *chave;
         int natureza;
-        TipoSimbolo tipo;
+        int tipo;
         Parametro *parametros;    // NULL se não for função
         Dado dado;
         struct Simbolo *prox;
@@ -62,12 +59,14 @@
 
     TabelaSimbolos *tabela_criar(TabelaSimbolos *anterior);
     Simbolo *tabela_buscar(TabelaSimbolos *tabela, const char *nome);
+    TabelaSimbolos *tabela_inserir_funcao(TabelaSimbolos *tabela, char *chave, int natureza, int tipo, Parametro *params, Dado dado);
+    TabelaSimbolos *tabela_destruir(TabelaSimbolos *tabela);
+
+    void tabela_imprimir(TabelaSimbolos *tabela);
     void simbolos_destruir(Simbolo *simbolo);
-    void tabela_inserir_funcao(TabelaSimbolos *tabela, char *chave, int natureza, TipoSimbolo tipo, Parametro *params, Dado dado);
-    void tabela_destruir(TabelaSimbolos *tabela);
-    Parametro *parametro_criar(TipoSimbolo tipo, Dado dado);
+    Parametro *parametro_criar(int tipo, Dado dado);
+
     void parametros_destruir(Parametro *p);
-    Simbolo *tabela_buscar(TabelaSimbolos *tabela, const char *nome);
 }
 
 %{
@@ -82,6 +81,8 @@ extern int yylineno;
 %union{
     valor_lexico_t *valor_lexico;
     asd_tree_t *arvore;
+    Parametro *parametro;
+    int TipoSimbolo;
 }
 
 %token <valor_lexico> TK_ID TK_LI_DECIMAL TK_LI_INTEIRO
@@ -95,6 +96,8 @@ extern int yylineno;
 %type <arvore> expressao_nv6 expressao_nv5 expressao_nv4 expressao_nv3 expressao_nv2 expressao_nv1 operando
 %type <arvore> lista_argumentos
 
+%type <parametro> lista_parametros_opcional lista_parametros elemento_lista_parametros
+%type <TipoSimbolo> tipo
 
 %define parse.error verbose
 %token TK_TIPO
@@ -112,15 +115,23 @@ extern int yylineno;
 
 %%
 
-programa: lista ';' {
-    arvore = $1;
-    $$ = $1;
+programa: escopo_ini lista escopo_fim ';' {
+    arvore = $2;
+    $$ = $2;
 };
 
 programa: %empty {
     arvore = NULL;
     $$ = NULL;
 };
+
+escopo_ini: %empty {
+    tabela = tabela_criar(tabela);
+}
+
+escopo_fim: %empty {
+    tabela = tabela_destruir(tabela);
+}
 
 /********************** Definicao de lista */
 lista: elemento_lista ',' lista {
@@ -145,7 +156,7 @@ elemento_lista: declaracao_variavel_global { $$ = $1; };
 elemento_lista: definicao_funcao { $$ = $1; };
 
 /********************** Bloco de comandos */
-bloco_comandos: '[' lista_comandos ']' { $$ = $2; };
+bloco_comandos: '[' escopo_ini lista_comandos escopo_fim ']' { $$ = $3; };
 
 lista_comandos: %empty { $$ = NULL; };
 lista_comandos: elementos_lista_comandos { $$ = $1; };
@@ -189,78 +200,117 @@ literal: TK_LI_INTEIRO{
     free($1);
 };
 
-tipo: TK_INTEIRO;
-tipo: TK_DECIMAL;
+tipo: TK_INTEIRO { $$ = TIPO_INT; };
+tipo: TK_DECIMAL { $$ = TIPO_FLOAT; };
 
 declaracao_variavel_global: TK_VAR TK_ID TK_ATRIB tipo {
-    $$ = NULL;
+    // Verificar se já foi declarado
+    if (tabela_buscar(tabela, $2->valor) != NULL) {
+        fprintf(stderr, "Erro linha %d: variável '%s' já declarada\n", yylineno, $2->valor);
+        exit(ERR_DECLARED);
+    }
+
+    Dado d; // inicial vazio
+    tabela = tabela_inserir_funcao(tabela, $2->valor, IDENTIFICADOR, $4, NULL, d);
 
     free($2->valor);
     free($2);
+    $$ = NULL;
 };
 
+
 /********************** Declaracao de variaveis locais*/
-declaracao_variavel_local: TK_VAR TK_ID TK_ATRIB tipo TK_COM literal{
+declaracao_variavel_local: TK_VAR TK_ID TK_ATRIB tipo TK_COM literal {
+    if (tabela_buscar(tabela, $2->valor) != NULL) {
+        exit(ERR_DECLARED);
+    }
+
+    Dado d; // exemplo: preencher valor se quiser
+    tabela = tabela_inserir_funcao(tabela, $2->valor, IDENTIFICADOR, $4, NULL, d);
+
     $$ = asd_new("com");
-    asd_tree_t* buffer = asd_new($2->valor);
-    asd_add_child($$, buffer);
+    asd_add_child($$, asd_new($2->valor));
     asd_add_child($$, $6);
 
     free($2->valor);
     free($2);
 };
 
+
 /********************** Atribuicao de variaveis */
 atribuicao_variavel: TK_ID TK_ATRIB expressao {
-    $$ = asd_new(":=");
-    asd_tree_t* buffer = asd_new($1->valor);
-    asd_add_child($$, buffer);
-    if ($3){
-        asd_add_child($$, $3);
+    Simbolo *s = tabela_buscar(tabela, $1->valor);
+    if (s == NULL) {
+        fprintf(stderr, "Erro linha %d: identificador '%s' não declarado\n", yylineno, $1->valor);
+        exit(ERR_UNDECLARED);
     }
+
+    $$ = asd_new(":=");
+    asd_add_child($$, asd_new($1->valor));
+    if ($3) asd_add_child($$, $3);
 
     free($1->valor);
     free($1);
 };
+
 
 /********************** Definicao de funcoes */
 definicao_funcao: TK_ID TK_SETA tipo lista_parametros_opcional TK_ATRIB bloco_comandos {
-    $$ = asd_new($1->valor);
-    if ($6){
-        asd_add_child($$, $6);
+    if (tabela_buscar(tabela, $1->valor) != NULL) {
+        fprintf(stderr, "Erro linha %d: função '%s' já declarada\n", yylineno, $1->valor);
+        exit(ERR_DECLARED);
     }
+
+    Dado dado; // valor vazio para agora
+    tabela = tabela_inserir_funcao(tabela, $1->valor, FUNCAO, $3, $4, dado);
+
+    $$ = asd_new($1->valor);
+    if ($6) asd_add_child($$, $6);
 
     free($1->valor);
     free($1);
+    };
+
+lista_parametros_opcional: %empty { $$ = NULL; };
+lista_parametros_opcional: TK_COM lista_parametros { $$ = $2; };
+lista_parametros_opcional: lista_parametros { $$ = $1; };
+
+lista_parametros: elemento_lista_parametros { $$ = $1; };
+lista_parametros: lista_parametros ',' elemento_lista_parametros {
+    // Conectar as listas
+    Parametro *ultimo = $1;
+    while (ultimo->prox != NULL) ultimo = ultimo->prox;
+    ultimo->prox = $3;
+    $$ = $1;
 };
 
-lista_parametros_opcional: %empty;
-lista_parametros_opcional: TK_COM lista_parametros;
-lista_parametros_opcional: lista_parametros;
-
-lista_parametros: elemento_lista_parametros;
-lista_parametros: lista_parametros ',' elemento_lista_parametros;
-
 elemento_lista_parametros: TK_ID TK_ATRIB tipo {
+    Dado dado;
+    $$ = parametro_criar($3, dado); // devolve Parametro*
+
     free($1->valor);
     free($1);
 };
 
 chamada_funcao: TK_ID '(' lista_argumentos_opcional ')' {
-    char label[64];
-
-    sprintf(label, "call %s", $1->valor);
-
-    $$ = asd_new(label);
-
-    if ($3 != NULL){
-        asd_add_child($$, $3);
+    Simbolo *s = tabela_buscar(tabela, $1->valor);
+    if (s == NULL) {
+         exit(ERR_UNDECLARED);
+    }
+    if (s->natureza != FUNCAO) {
+        exit(ERR_FUNCTION);
     }
 
-    // 5. Liberar a memória do token, na ordem correta
+
+    char label[64];
+    sprintf(label, "call %s", $1->valor);
+    $$ = asd_new(label);
+    if ($3) asd_add_child($$, $3);
+
     free($1->valor);
     free($1);
 };
+
 
 lista_argumentos_opcional: %empty {$$ = NULL;};
 lista_argumentos_opcional: lista_argumentos { $$ = $1; };
@@ -423,6 +473,8 @@ void yyerror(const char *s) {
 }
 
 
+/* --- Funções da tabela --- */
+
 TabelaSimbolos *tabela_criar(TabelaSimbolos *anterior) {
     TabelaSimbolos *tabela = malloc(sizeof(TabelaSimbolos));
     tabela->anterior = anterior;
@@ -430,7 +482,7 @@ TabelaSimbolos *tabela_criar(TabelaSimbolos *anterior) {
     return tabela;
 }
 
-Parametro *parametro_criar(TipoSimbolo tipo, Dado dado) {
+Parametro *parametro_criar(int tipo, Dado dado) {
     Parametro *p = malloc(sizeof(Parametro));
     p->tipo = tipo;
     p->dado = dado;
@@ -453,9 +505,7 @@ Simbolo *tabela_buscar(TabelaSimbolos *tabela, const char *nome) {
             if (strcmp(simbolo_atual->chave, nome) == 0){
                 return simbolo_atual;
             }
-            else {
-                simbolo_atual = simbolo_atual->prox;
-            }
+            simbolo_atual = simbolo_atual->prox;
         }
         itera_tabela = itera_tabela->anterior;
     }
@@ -463,26 +513,35 @@ Simbolo *tabela_buscar(TabelaSimbolos *tabela, const char *nome) {
     return NULL;
 }
 
-void tabela_inserir_funcao(TabelaSimbolos *tabela, char *chave, int natureza, TipoSimbolo tipo, Parametro *params, Dado dado) {
+TabelaSimbolos *tabela_inserir_funcao(TabelaSimbolos *tabela, char *chave, int natureza, int tipo, Parametro *params, Dado dado) {
     if (tabela_buscar(tabela, chave) != NULL){
-        printf("Erro simbolo ja existe");
-        return;
+        printf("Erro: símbolo '%s' já existe!\n", chave);
+        exit(ERR_DECLARED);
     }
-    
+
     Simbolo *s = malloc(sizeof(Simbolo));
-    s->chave = chave;
+    s->chave = strdup(chave);
     s->natureza = natureza;
     s->tipo = tipo;
     s->parametros = params;
     s->dado = dado;
     s->prox = NULL;
 
-    Simbolo *localizacao_inserir = tabela->primeiro;
-    while (localizacao_inserir->prox != NULL){
-        localizacao_inserir = localizacao_inserir->prox;
+    if (tabela == NULL) {
+        fprintf(stderr, "Erro: tabela de símbolos não inicializada!\n");}
+
+
+    if (tabela->primeiro == NULL) {
+        tabela->primeiro = s;
+    }
+    else {
+        Simbolo *simbolo_buffer = tabela->primeiro;
+        while (simbolo_buffer->prox != NULL)
+            simbolo_buffer = simbolo_buffer->prox;
+        simbolo_buffer->prox = s;
     }
 
-    localizacao_inserir->prox = s;
+    return tabela;
 }
 
 void simbolos_destruir(Simbolo *simbolo) {
@@ -494,9 +553,34 @@ void simbolos_destruir(Simbolo *simbolo) {
     }
 }
 
-void tabela_destruir(TabelaSimbolos *tabela) {
-    TabelaSimbolos *tabela_destruida = tabela;
-    tabela = tabela->anterior;
-    simbolos_destruir(tabela_destruida->primeiro);
-    free(tabela_destruida);
+TabelaSimbolos *tabela_destruir(TabelaSimbolos *tabela) {
+    TabelaSimbolos *anterior = tabela->anterior;
+    simbolos_destruir(tabela->primeiro);
+    free(tabela);
+    return anterior;
+}
+
+/* --- Função auxiliar para imprimir --- */
+void tabela_imprimir(TabelaSimbolos *tabela) {
+    printf("=== Tabela de Símbolos ===\n");
+    Simbolo *s = tabela->primeiro;
+    while (s != NULL) {
+        printf("Nome: %s | Natureza: %d | Tipo: %s\n",
+               s->chave,
+               s->natureza,
+               s->tipo == TIPO_INT ? "int" : "float");
+
+        if (s->parametros) {
+            printf("  Parâmetros:\n");
+            Parametro *p = s->parametros;
+            int i = 1;
+            while (p) {
+                printf("    #%d tipo=%s\n", i++, p->tipo == TIPO_INT ? "int" : "float");
+                p = p->prox;
+            }
+        }
+
+        s = s->prox;
+    }
+    printf("===========================\n\n");
 }
