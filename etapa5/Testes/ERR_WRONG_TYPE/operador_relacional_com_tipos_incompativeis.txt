@@ -1,0 +1,13 @@
+// Objetivo: Verificar se operadores relacionais (<, >, <=, >=) também falham com tipos mistos (inteiro e decimal).
+// Esperado: ERR_WRONG_TYPE na linha 'se (i < d)', pois a comparação envolve tipos incompatíveis.
+
+principal -> inteiro :=
+[
+    var i := inteiro com 10
+    var d := decimal com 10.5
+
+    se (i < d) [
+        // corpo do if
+    ]
+    retorna 0 := inteiro
+];

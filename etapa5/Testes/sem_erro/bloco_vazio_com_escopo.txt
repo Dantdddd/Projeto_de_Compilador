@@ -1,0 +1,12 @@
+// Objetivo: testar criação e destruição de escopo mesmo em blocos vazios.
+// Esperado: sem erro — bloco vazio deve empilhar e desempilhar escopo corretamente.
+
+principal -> inteiro :=
+[
+    se (1)
+    [
+        // bloco vazio
+    ]
+
+    retorna 0 := inteiro
+];

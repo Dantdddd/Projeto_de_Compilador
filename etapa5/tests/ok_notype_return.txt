@@ -1,0 +1,2 @@
+// Versão correta: lista de declarações válidas
+var total := inteiro, var media := decimal;

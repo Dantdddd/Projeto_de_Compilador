@@ -1,0 +1,9 @@
+// Objetivo: impedir a declaração de uma função com o mesmo nome de uma variável global já declarada.
+// Esperado: ERR_DECLARED na linha de declaração da função 'g_var', pois o identificador já está em uso no escopo global.
+
+var g_var := inteiro,
+
+g_var -> inteiro :=
+[
+    retorna 0 := inteiro
+];

@@ -1,0 +1,14 @@
+// Objetivo: checar que o teste do while também segue as regras de inferência.
+// Esperado: ERR_WRONG_TYPE na linha
+//           'enquanto (1.0 & 2)'
+//           porque a expressão mistura decimal e inteiro de forma incompatível.
+
+principal -> inteiro :=
+[
+    enquanto (1.0 & 2)
+    [
+        retorna 0 := inteiro
+    ]
+
+    retorna 0 := inteiro
+];

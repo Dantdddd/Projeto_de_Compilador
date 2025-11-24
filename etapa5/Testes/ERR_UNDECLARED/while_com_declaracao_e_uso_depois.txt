@@ -1,0 +1,14 @@
+// Objetivo: verificar que variáveis declaradas dentro de um 'enquanto' não são visíveis fora dele.
+// Esperado: ERR_UNDECLARED na linha 'i := 10', pois 'i' foi declarada apenas dentro do laço.
+
+principal -> inteiro :=
+[
+    enquanto (1)
+    [
+        var i := inteiro com 0
+    ]
+
+    i := 10
+
+    retorna 0 := inteiro
+];

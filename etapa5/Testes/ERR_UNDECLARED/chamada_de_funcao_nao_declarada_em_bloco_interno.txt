@@ -1,0 +1,12 @@
+// Objetivo: testar chamada de função não declarada dentro de um bloco interno.
+// Esperado: ERR_UNDECLARED na linha 'resultado := funcao_que_nao_existe()', pois essa função não foi declarada.
+
+principal -> inteiro :=
+[
+    se (1)
+    [
+        resultado := funcao_que_nao_existe()
+    ]
+
+    retorna 0 := inteiro
+];

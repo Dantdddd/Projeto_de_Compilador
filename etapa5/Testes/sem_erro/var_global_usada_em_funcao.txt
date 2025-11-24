@@ -1,0 +1,10 @@
+// Objetivo: verificar que variáveis globais são acessíveis dentro de funções.
+// Esperado: sem erro — 'g' é encontrado no escopo global.
+
+var g := inteiro,
+
+usa_global -> inteiro :=
+[
+    g := 10
+    retorna 0 := inteiro
+];

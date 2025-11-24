@@ -1,0 +1,2 @@
+// Erro: tipo ausente
+var x :=;

@@ -1,0 +1,44 @@
+tipo inteiro x1 := 10;
+enquanto (x1 < 100) 
+    x1 := x1 + 1;
+    se (x1 == 50) retorna;
+    senao x1 := x1 * 2;
+
+
+tipo     var          se
+    inteiro
+decimal
+
+
+retorna		enquanto	com
+
+
+
+// comentário sozinho
+tipo // comentário depois do código
+123 // comentário após literal
+// comentário vazio
+//
+var
+
+
+a<=b
+x>=y
+num==10
+z!=20
+valor:=100
+p->q
+
+
+tipo inteiro var x1;
+tipo decimal var y2;
+
+x1 := 10;
+y2 := 3.14;
+
+enquanto (x1 < 100)
+    se (y2 != 0.5) 
+        x1 := x1 + 1;
+    senao 
+        retorna;
+

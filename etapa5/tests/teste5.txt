@@ -1,0 +1,12 @@
+// isto é um comentário
+tipo var // comentário após código
+123 // outro comentário
+
+
+se1
+senao2
+retornaValor
+decimalidade
+var_abc
+inteiro123
+comeco

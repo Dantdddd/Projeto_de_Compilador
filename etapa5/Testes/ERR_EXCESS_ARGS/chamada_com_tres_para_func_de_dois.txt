@@ -1,0 +1,16 @@
+// Objetivo: garantir que o compilador detecta argumentos em excesso.
+// Esperado: ERR_EXCESS_ARGS na linha
+//           'soma_e_multiplica(1, 2, 3)'
+//           porque a função só recebe dois parâmetros.
+
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    retorna a + b := inteiro
+],
+
+principal -> inteiro :=
+[
+    var r := inteiro
+    r := soma_e_multiplica(1, 2, 3)
+    retorna 0 := inteiro
+];

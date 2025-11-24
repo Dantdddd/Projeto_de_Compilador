@@ -1,0 +1,2 @@
+// Versão correta: múltiplas declarações
+var a := inteiro, var b := decimal, var c := inteiro;

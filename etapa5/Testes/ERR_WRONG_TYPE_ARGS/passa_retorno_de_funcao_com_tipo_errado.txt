@@ -1,0 +1,18 @@
+// Objetivo: garantir que o tipo do valor de retorno de uma função, quando usada como argumento para outra, é verificado.
+// Esperado: ERR_WRONG_TYPE_ARGS na linha 'recebe_inteiro(retorna_decimal())', pois 'recebe_inteiro' espera um argumento inteiro, mas 'retorna_decimal' retorna um decimal.
+
+retorna_decimal -> decimal :=
+[
+    retorna 3.14 := decimal
+],
+
+recebe_inteiro -> inteiro com x := inteiro :=
+[
+    retorna x := inteiro
+],
+
+principal -> inteiro :=
+[
+    recebe_inteiro(retorna_decimal())
+    retorna 0 := inteiro
+];

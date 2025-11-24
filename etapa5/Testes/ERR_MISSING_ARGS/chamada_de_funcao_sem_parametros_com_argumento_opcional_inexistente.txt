@@ -1,0 +1,15 @@
+// Objetivo: testar o caso inverso: função declarada com 1 parâmetro e chamada sem passar nenhum.
+// Esperado: ERR_MISSING_ARGS na linha
+//           'usa_valor()'
+//           porque a função foi declarada com 'v := inteiro'.
+
+usa_valor -> inteiro com v := inteiro :=
+[
+    retorna v := inteiro
+],
+
+principal -> inteiro :=
+[
+    usa_valor()
+    retorna 0 := inteiro
+];

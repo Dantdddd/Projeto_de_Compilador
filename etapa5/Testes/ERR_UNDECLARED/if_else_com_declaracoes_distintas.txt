@@ -1,0 +1,19 @@
+// Objetivo: garantir que variáveis declaradas dentro de blocos 'se' e 'senao' não existam fora deles.
+// Esperado: ERR_UNDECLARED em 'x := 3' e 'y := 4', pois ambas variáveis foram declaradas apenas em blocos internos.
+
+principal -> inteiro :=
+[
+    se (1)
+    [
+        var x := inteiro com 1
+    ]
+    senao
+    [
+        var y := inteiro com 2
+    ]
+
+    x := 3
+    y := 4
+
+    retorna 0 := inteiro
+];

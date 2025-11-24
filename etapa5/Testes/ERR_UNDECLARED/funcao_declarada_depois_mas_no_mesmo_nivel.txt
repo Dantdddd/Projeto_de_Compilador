@@ -1,0 +1,14 @@
+// Objetivo: verificar uso de função antes da sua declaração (sem forward declaration).
+// Esperado: ERR_UNDECLARED na linha 'r := soma(1, 2)', pois 'soma' ainda não foi declarada no momento do uso.
+
+principal -> inteiro :=
+[
+    var r := inteiro
+    r := soma(1, 2)
+    retorna 0 := inteiro
+],
+
+soma -> inteiro com a := inteiro, b := inteiro :=
+[
+    retorna a + b := inteiro
+];

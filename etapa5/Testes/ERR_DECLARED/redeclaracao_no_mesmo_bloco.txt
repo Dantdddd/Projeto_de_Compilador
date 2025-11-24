@@ -1,0 +1,10 @@
+// Objetivo: verificar redeclaração de variável no mesmo bloco.
+// Esperado: ERR_DECLARED na segunda linha 'var a := inteiro', pois a variável 'a' já existe no escopo atual.
+
+principal -> inteiro :=
+[
+    var a := inteiro
+    var a := inteiro
+
+    retorna 0 := inteiro
+];

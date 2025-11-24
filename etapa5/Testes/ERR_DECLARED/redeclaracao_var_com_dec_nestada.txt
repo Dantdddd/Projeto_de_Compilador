@@ -1,0 +1,27 @@
+// Objetivo: detectar redeclaração de variável decimal em um escopo interno aninhado (bloco 'senao') quando já existe
+//           uma variável com o mesmo nome declarada no escopo imediatamente externo (dentro do 'enquanto').
+// Esperado: ERR_DECLARED na linha
+//           'var variavel_decimal := decimal com 2.0'
+//           dentro do bloco 'senao', porque 'variavel_decimal' já tinha sido declarada antes no mesmo escopo de função.
+
+principal -> inteiro :=
+[
+    enquanto (1)
+    [
+        var variavel_decimal := decimal com 1.0
+
+        se (1)
+        [
+            se (0)
+            [
+                
+            ]
+            senao
+            [
+                var variavel_decimal := decimal com 2.0
+            ]
+        ]
+    ]
+
+    retorna 0 := inteiro
+];

@@ -1,0 +1,11 @@
+// Objetivo: testar sombreamento de variável global por variável local com o mesmo nome.
+// Esperado: ERR_DECLARED.
+
+var g := inteiro,
+
+principal -> inteiro :=
+[
+    var g := inteiro com 10
+    g := g + 1
+    retorna 0 := inteiro
+];

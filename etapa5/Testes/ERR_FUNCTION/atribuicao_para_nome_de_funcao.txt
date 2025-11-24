@@ -1,0 +1,13 @@
+// Objetivo: garantir que uma função não pode ser usada como variável em atribuição.
+// Esperado: ERR_FUNCTION na linha 'minha_funcao := 10', pois 'minha_funcao' é um identificador de função.
+
+minha_funcao -> inteiro :=
+[
+    retorna 0 := inteiro
+],
+
+principal -> inteiro :=
+[
+    minha_funcao := 10
+    retorna 0 := inteiro
+];

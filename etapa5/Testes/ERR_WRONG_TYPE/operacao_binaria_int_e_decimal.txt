@@ -1,0 +1,11 @@
+// Objetivo: verificar se uma operação binária entre um inteiro e um decimal resulta em erro de tipo, conforme a especificação.
+// Esperado: ERR_WRONG_TYPE na linha 'resultado := i + d', pois a linguagem não permite a inferência de tipo entre int e decimal.
+
+principal -> inteiro :=
+[
+    var i := inteiro com 5
+    var d := decimal com 3.14
+    var resultado := decimal
+    resultado := i + d
+    retorna 0 := inteiro
+];

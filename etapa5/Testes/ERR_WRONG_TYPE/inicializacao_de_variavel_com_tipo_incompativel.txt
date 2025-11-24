@@ -1,0 +1,10 @@
+// Objetivo: garantir que a inicialização 'com <expr>' na declaração também respeita o tipo da variável.
+// Esperado: ERR_WRONG_TYPE na linha
+//           'var x := inteiro com 1.0'
+//           porque a variável é inteira e o valor é decimal.
+
+principal -> inteiro :=
+[
+    var x := inteiro com 1.0
+    retorna 0 := inteiro
+];

@@ -1,0 +1,16 @@
+// Objetivo: detectar chamada de função que não espera parâmetros mas recebeu um argumento.
+// Esperado: ERR_EXCESS_ARGS na linha
+//           'funcao_constante(10)'
+//           porque 'funcao_constante' não tem parâmetros.
+
+funcao_constante -> decimal :=
+[
+    retorna 3.14 := decimal
+],
+
+principal -> inteiro :=
+[
+    var x := decimal
+    x := funcao_constante(10)
+    retorna 0 := inteiro
+];

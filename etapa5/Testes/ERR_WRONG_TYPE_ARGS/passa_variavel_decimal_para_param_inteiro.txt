@@ -1,0 +1,16 @@
+// Objetivo: garantir que, mesmo usando variável (e não literal), o tipo também seja checado.
+// Esperado: ERR_WRONG_TYPE_ARGS na linha
+//           'soma_e_multiplica(d, 2)'
+//           porque 'd' é decimal e o primeiro parâmetro é inteiro.
+
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    retorna a + b := inteiro
+],
+
+principal -> inteiro :=
+[
+    var d := decimal com 1.0
+    soma_e_multiplica(d, 2)
+    retorna 0 := inteiro
+];

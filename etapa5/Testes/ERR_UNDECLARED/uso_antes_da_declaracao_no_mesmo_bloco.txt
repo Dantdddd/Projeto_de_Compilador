@@ -1,0 +1,10 @@
+// Objetivo: verificar uso de variável antes da sua declaração no mesmo escopo.
+// Esperado: ERR_UNDECLARED na linha 'a := 10', pois 'a' ainda não foi declarada quando usada.
+
+principal -> inteiro :=
+[
+    a := 10
+    var a := inteiro
+
+    retorna 0 := inteiro
+];

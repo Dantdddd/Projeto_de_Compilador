@@ -1,0 +1,12 @@
+// Objetivo: verificar se o analisador semântico acusa identificador não declarado usado como operando em expressão.
+// Esperado: ERR_UNDECLARED na linha
+//           'resultado_decimal := nao_declarado * 3'
+//           porque 'nao_declarado' não existe em nenhum escopo conhecido no momento do uso.
+
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    var resultado_decimal := inteiro
+    resultado_decimal := nao_declarado * 3
+
+    retorna 0 := inteiro
+];

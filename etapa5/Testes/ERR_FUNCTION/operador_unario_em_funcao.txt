@@ -1,0 +1,13 @@
+// Objetivo: Verificar se o compilador detecta o uso de um operador unário em um identificador de função sem chamá-la.
+// Esperado: ERR_FUNCTION na linha 'se (!minha_funcao)', pois 'minha_funcao' é uma função e não um valor que possa ser negado diretamente.
+
+minha_funcao -> inteiro :=
+[
+    retorna 1 := inteiro
+],
+
+principal -> inteiro :=
+[
+    se (!minha_funcao) [ ]
+    retorna 0 := inteiro
+];

@@ -1,0 +1,11 @@
+// Objetivo: detectar uso de variável local como chamada de função.
+// Esperado: ERR_VARIABLE na linha
+//           'v()'
+//           porque 'v' é variável local.
+
+principal -> inteiro :=
+[
+    var v := inteiro com 10
+    v()
+    retorna 0 := inteiro
+];

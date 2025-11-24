@@ -1,0 +1,20 @@
+// Objetivo: verificar se busca de variável percorre corretamente escopos aninhados.
+// Esperado: sem erro — 'a' é encontrada no escopo mais externo.
+
+principal -> inteiro :=
+[
+    var a := inteiro com 1
+
+    se (1)
+    [
+        se (1)
+        [
+            se (1)
+            [
+                a := a + 1
+            ]
+        ]
+    ]
+
+    retorna 0 := inteiro
+];

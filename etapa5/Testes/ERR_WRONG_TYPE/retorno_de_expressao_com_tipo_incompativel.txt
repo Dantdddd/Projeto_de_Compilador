@@ -1,0 +1,9 @@
+// Objetivo: verificar se o tipo de uma expressão no comando de retorno é compatível com o tipo de retorno da função.
+// Esperado: ERR_WRONG_TYPE na linha 'retorna 1 + 0.5 := decimal', pois a função 'funcao_inteira' espera um retorno inteiro, mas a expressão '1 + 0.5' resultaria em um tipo incompatível (decimal).
+
+funcao_inteira -> inteiro :=
+[
+    // A especificação diz que a inferência entre int e float deve falhar.
+    // O tipo da expressão de retorno deve ser compatível com o tipo da função.
+    retorna 1 + 0.5 := decimal
+];
