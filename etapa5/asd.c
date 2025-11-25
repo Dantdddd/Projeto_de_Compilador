@@ -11,22 +11,29 @@ asd_tree_t *asd_new(const char *label)
     ret->label = strdup(label);
     ret->number_of_children = 0;
     ret->children = NULL;
+    ret->code = NULL;
+    ret->temp = NULL;
   }
   return ret;
 }
 
-void asd_free(asd_tree_t *tree)
-{
-  if (tree != NULL){
+void asd_free(asd_tree_t *tree) {
+  if (tree != NULL) {
     int i;
-    for (i = 0; i < tree->number_of_children; i++){
-      asd_free(tree->children[i]);
+    for (i = 0; i < tree->number_of_children; i++) {
+        asd_free(tree->children[i]);
     }
     free(tree->children);
-    free(tree->label);
+
+    if (tree->label != NULL) {
+      free(tree->label);
+    }
+
+    if (tree->temp != NULL) {
+      free(tree->temp);
+    }
+
     free(tree);
-  }else{
-    printf("Erro: %s recebeu parâmetro tree = %p.\n", __FUNCTION__, tree);
   }
 }
 

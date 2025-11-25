@@ -1,11 +1,15 @@
 #ifndef _ASD_H_
 #define _ASD_H_
 
+#include "iloc_lang.h"
+
 typedef struct asd_tree {
   char *label;
   int number_of_children;
   struct asd_tree **children;
   int is_int;
+  ILOC_operation_t *code;
+  char *temp;
 } asd_tree_t;
 
 /*

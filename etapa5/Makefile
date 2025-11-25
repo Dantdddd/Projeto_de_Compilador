@@ -1,10 +1,15 @@
 CC = gcc
 FLEX = flex
 BISON = bison
-CFLAGS = -Wall -Werror -fsanitize=address -fsanitize=address
 
-# No MacOS tem um Bison 2.3 instalado.
-# Muda o path do Bison para o instalado pelo Homebrew (Versao 3.8.2)
+COMMON_FLAGS = -Wall -Werror
+# DEBUG_FLAGS = -g3 -O0 -fsanitize=address
+RELEASE_FLAGS = -O3
+
+# CFLAGS = $(COMMON_FLAGS) $(DEBUG_FLAGS)
+CFLAGS = $(COMMON_FLAGS) $(RELEASE_FLAGS)
+
+# MacOS Check
 OS_NAME := $(shell uname -s)
 ifeq ($(OS_NAME), Darwin)
 	BISON = /opt/homebrew/opt/bison/bin/bison
@@ -14,8 +19,8 @@ LEX_SRC = scanner.l
 LEX_OUT = lex.yy.c
 BISON_SRC = parser.y
 BISON_OUT = parser.tab.c
-SRCS = main.c asd.c
-EXEC = etapa4
+SRCS = main.c asd.c iloc_lang.c
+EXEC = etapa5
 
 all: $(EXEC)
 
@@ -28,11 +33,13 @@ $(LEX_OUT): $(LEX_SRC)
 $(BISON_OUT) : $(BISON_SRC)
 	$(BISON) -d --report=all $<
 
-asd: asd.h asd.c asd_main.c
-	gcc -Wall -fsanitize=address -fsanitize=address asd.c asd_main.c -o asd
+# For release
+release: CFLAGS = $(COMMON_FLAGS) $(RELEASE_FLAGS)
+release: clean $(EXEC)
 
 clean:
-	rm -f $(EXEC) $(LEX_OUT) $(BISOUN_OUT)
+	# Corrected typo here (BISOUN_OUT -> BISON_OUT)
+	rm -f $(EXEC) $(LEX_OUT) $(BISON_OUT)
 	rm -rf *.o
 	rm -rf parser.tab.c
 	rm -rf parser.tab.h
