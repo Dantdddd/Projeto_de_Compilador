@@ -38,7 +38,6 @@ release: CFLAGS = $(COMMON_FLAGS) $(RELEASE_FLAGS)
 release: clean $(EXEC)
 
 clean:
-	# Corrected typo here (BISOUN_OUT -> BISON_OUT)
 	rm -f $(EXEC) $(LEX_OUT) $(BISON_OUT)
 	rm -rf *.o
 	rm -rf parser.tab.c

@@ -967,7 +967,9 @@ expressao_nv1: '-' operando{
     $$ = asd_new("-");
     $$->is_int = $2->is_int;
 
-    char temp[32]; ILOC_new_temp(temp);
+    char temp[32];
+    ILOC_new_temp(temp);
+
     $$->temp = strdup(temp);
 
     ILOC_operation_t *op = ILOC_new_operation(RSUBI, $2->temp, "0", temp, NULL);
@@ -983,7 +985,8 @@ expressao_nv1: '!' operando{
     $$ = asd_new("!");
     $$->is_int = 1;
 
-    char temp[32]; ILOC_new_temp(temp);
+    char temp[32];
+    ILOC_new_temp(temp);
     $$->temp = strdup(temp);
 
     ILOC_operation_t *op = ILOC_new_operation(XOR, $2->temp, "1", temp, NULL);
