@@ -690,8 +690,10 @@ expressao: expressao '|' expressao_nv6 {
     $$->temp = strdup(temp);
 
     ILOC_operation_t *op = ILOC_new_operation(OR, $1->temp, $3->temp, temp, NULL);
+    ILOC_operation_t *store = ILOC_new_operation(STOREAI, "%eax", temp, NULL, NULL);
     $$->code = ILOC_concat_operations($1->code, $3->code);
     $$->code = ILOC_concat_operations($$->code, op);
+    $$->code = ILOC_concat_operations($$->code, store);
 
     asd_add_child($$, $1);
     asd_add_child($$, $3);
@@ -713,8 +715,10 @@ expressao_nv6: expressao_nv6 '&' expressao_nv5{
     $$->temp = strdup(temp);
 
     ILOC_operation_t *op = ILOC_new_operation(AND, $1->temp, $3->temp, temp, NULL);
+    ILOC_operation_t *store = ILOC_new_operation(STOREAI, "%eax", temp, NULL, NULL);
     $$->code = ILOC_concat_operations($1->code, $3->code);
     $$->code = ILOC_concat_operations($$->code, op);
+    $$->code = ILOC_concat_operations($$->code, store);
 
     asd_add_child($$, $1);
     asd_add_child($$, $3);
