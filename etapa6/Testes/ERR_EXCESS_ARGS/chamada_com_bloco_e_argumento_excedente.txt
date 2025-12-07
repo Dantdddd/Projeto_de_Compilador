@@ -1,0 +1,19 @@
+// Objetivo: testar que o erro também é emitido mesmo se a chamada estiver dentro de bloco aninhado.
+// Esperado: ERR_EXCESS_ARGS na linha
+//           'usa(1, 2)'
+//           porque 'usa' foi declarada com apenas 1 parâmetro.
+
+usa -> inteiro com v := inteiro :=
+[
+    retorna v := inteiro
+],
+
+principal -> inteiro :=
+[
+    se (1)
+    [
+        usa(1, 2)
+    ]
+
+    retorna 0 := inteiro
+];

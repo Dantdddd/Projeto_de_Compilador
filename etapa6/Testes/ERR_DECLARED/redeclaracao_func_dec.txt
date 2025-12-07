@@ -1,0 +1,12 @@
+// Objetivo: detectar redeclaração de função no mesmo escopo global.
+// Esperado: ERR_DECLARED na segunda definição de 'funcao_decimal', no início da segunda declaração.
+
+funcao_decimal -> decimal :=
+[
+    retorna 3.14 := decimal
+],
+
+funcao_decimal -> decimal :=
+[
+    retorna 3.14 := decimal
+];

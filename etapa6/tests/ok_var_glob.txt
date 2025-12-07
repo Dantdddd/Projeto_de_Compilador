@@ -1,0 +1,2 @@
+// Versão correta: variável global sem inicialização
+var g := inteiro;

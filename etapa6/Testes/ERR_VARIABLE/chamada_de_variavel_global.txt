@@ -1,0 +1,12 @@
+// Objetivo: detectar uso de variável global como se fosse função.
+// Esperado: ERR_VARIABLE na linha
+//           'g(1, 2)'
+//           porque 'g' foi declarado como variável e não como função.
+
+var g := inteiro,
+
+principal -> inteiro :=
+[
+    g(1, 2)
+    retorna 0 := inteiro
+];

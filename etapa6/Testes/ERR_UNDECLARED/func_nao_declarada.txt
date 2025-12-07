@@ -1,0 +1,14 @@
+// Objetivo: detectar chamada de identificador como se fosse função quando esse identificador não foi declarado
+//           (nem como função, nem como variável) em nenhum escopo.
+// Esperado: ERR_UNDECLARED na linha
+//           'resultado_decimal := var_usada_como_func(contador, contador + 1)'
+//           porque 'var_usada_como_func' não foi declarado antes do uso (e 'contador' também não existe, mas o primeiro
+//           erro que deve aparecer é o da função não declarada).
+
+funcao_constante -> decimal :=
+[
+    var resultado_decimal := decimal com 1.0
+    resultado_decimal := var_usada_como_func(contador, contador + 1)
+
+    retorna 3.14 := decimal
+];

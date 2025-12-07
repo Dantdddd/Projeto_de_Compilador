@@ -1,0 +1,16 @@
+// Objetivo: impedir atribuição direta de uma função para uma variável.
+// Esperado: ERR_FUNCTION na linha
+//           'v := calcula'
+//           porque 'calcula' é função e não um valor.
+
+calcula -> inteiro com a := inteiro :=
+[
+    retorna a := inteiro
+],
+
+principal -> inteiro :=
+[
+    var v := inteiro
+    v := calcula
+    retorna 0 := inteiro
+];

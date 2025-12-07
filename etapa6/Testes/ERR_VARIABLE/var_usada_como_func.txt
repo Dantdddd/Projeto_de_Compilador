@@ -1,0 +1,15 @@
+// Objetivo: garantir que uma variável não pode ser usada como se fosse função (isto é, não pode receber lista de
+//           argumentos entre parênteses).
+// Esperado: ERR_VARIABLE na linha
+//           'resultado_decimal := var_usada_como_func(contador, contador + 1)'
+//           porque 'var_usada_como_func' foi declarada como variável (decimal) e não como função.
+
+funcao_constante -> decimal :=
+[
+    var resultado_decimal := decimal com 1.0
+    var var_usada_como_func := decimal com 1.0
+    var contador := inteiro com 1
+    resultado_decimal := var_usada_como_func(contador, contador + 1)
+
+    retorna 3.14 := decimal
+];

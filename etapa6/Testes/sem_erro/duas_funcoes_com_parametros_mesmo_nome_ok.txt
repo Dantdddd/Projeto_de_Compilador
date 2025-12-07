@@ -1,0 +1,12 @@
+// Objetivo: garantir que funções diferentes podem ter parâmetros com o mesmo nome.
+// Esperado: sem erro — cada função possui seu próprio escopo de parâmetros.
+
+f1 -> inteiro com x := inteiro :=
+[
+    retorna x := inteiro
+],
+
+f2 -> inteiro com x := inteiro :=
+[
+    retorna x := inteiro
+];

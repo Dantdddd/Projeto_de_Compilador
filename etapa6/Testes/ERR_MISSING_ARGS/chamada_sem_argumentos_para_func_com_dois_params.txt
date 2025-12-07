@@ -1,0 +1,16 @@
+// Objetivo: garantir que uma função que exige dois parâmetros não pode ser chamada sem argumentos.
+// Esperado: ERR_MISSING_ARGS na linha
+//           'soma_e_multiplica()'
+//           porque a função foi declarada com 'a := inteiro, b := inteiro' e nenhum argumento foi passado.
+
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    retorna a + b := inteiro
+],
+
+principal -> inteiro :=
+[
+    var r := inteiro
+    r := soma_e_multiplica()
+    retorna 0 := inteiro
+];

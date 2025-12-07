@@ -1,0 +1,14 @@
+// Objetivo: validar que a função pode chamar a si mesma (recursão).
+// Esperado: sem erro — 'fatorial' deve estar disponível durante a análise do corpo da função.
+
+fatorial -> inteiro com n := inteiro :=
+[
+    se (n <= 1)
+    [
+        retorna 1 := inteiro
+    ]
+    senao
+    [
+        retorna n * fatorial(n - 1) := inteiro
+    ]
+];

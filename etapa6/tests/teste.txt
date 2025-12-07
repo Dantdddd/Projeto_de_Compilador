@@ -1,0 +1,29 @@
+var x := inteiro, 
+var y := decimal,
+
+soma -> inteiro com a := inteiro, b := inteiro := [
+    var resultado := inteiro com 0
+    resultado := a + b
+    retorna resultado := inteiro
+],
+
+principal -> inteiro := [
+    var n := inteiro com 10
+    var m := inteiro com 20
+
+    se ( n < m  ) [
+        n := n - 1
+    ] senao [
+        m := m + 1
+    ]
+
+    enquanto (n < m) [
+        n := n + 1
+    ]
+
+    soma(n, m)
+    retorna n := inteiro
+],
+
+secundaria -> inteiro := [];
+

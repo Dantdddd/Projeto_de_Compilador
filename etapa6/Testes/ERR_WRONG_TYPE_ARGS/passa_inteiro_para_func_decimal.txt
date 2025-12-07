@@ -1,0 +1,15 @@
+// Objetivo: validar que função que espera decimal não aceita inteiro (pela tua regra de inferência).
+// Esperado: ERR_WRONG_TYPE_ARGS na linha
+//           'usa_decimal(10)'
+//           porque 'usa_decimal' foi declarada com parâmetro decimal.
+
+usa_decimal -> inteiro com d := decimal :=
+[
+    retorna 0 := inteiro
+],
+
+principal -> inteiro :=
+[
+    usa_decimal(10)
+    retorna 0 := inteiro
+];

@@ -1,0 +1,14 @@
+// Objetivo: garantir que parâmetros de função são acessíveis dentro de blocos aninhados.
+// Esperado: sem erro — 'x' é encontrado no escopo da função.
+
+soma -> inteiro com x := inteiro :=
+[
+    enquanto (1)
+    [
+        var y := inteiro
+        y := x % 1
+        y := y <= x
+    ]
+
+    retorna 0 := inteiro
+];

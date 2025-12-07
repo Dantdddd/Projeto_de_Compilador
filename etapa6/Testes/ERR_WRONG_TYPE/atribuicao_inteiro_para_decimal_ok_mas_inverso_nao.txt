@@ -1,0 +1,12 @@
+// Objetivo: mostrar o caso proibido especificado: a partir de float e int (ou inverso) a inferência deve falhar.
+// Esperado: ERR_WRONG_TYPE na linha
+//           'd := i'
+//           porque 'd' é decimal e a regra da linguagem diz que 'float e int' deve falhar.
+
+principal -> inteiro :=
+[
+    var d := decimal
+    var i := inteiro com 10
+    d := i
+    retorna 0 := inteiro
+];

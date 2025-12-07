@@ -1,0 +1,11 @@
+// Objetivo: garantir que mesmo variáveis declaradas com 'decimal' não possam ser chamadas como função.
+// Esperado: ERR_VARIABLE na linha
+//           'taxa(2)'
+//           porque 'taxa' é variável decimal.
+
+principal -> inteiro :=
+[
+    var taxa := decimal com 1.5
+    taxa(2)
+    retorna 0 := inteiro
+];

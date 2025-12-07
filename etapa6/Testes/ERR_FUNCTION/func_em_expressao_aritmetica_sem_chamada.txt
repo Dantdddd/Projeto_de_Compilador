@@ -1,0 +1,16 @@
+// Objetivo: detectar uso de identificador de função dentro de expressão aritmética sem chamada.
+// Esperado: ERR_FUNCTION na linha
+//           'x := retorna_inteiro + 1'
+//           porque 'retorna_inteiro' foi declarado como função e está sendo usado como se fosse um valor.
+
+retorna_inteiro -> inteiro :=
+[
+    retorna 1 := inteiro
+],
+
+principal -> inteiro :=
+[
+    var x := inteiro
+    x := retorna_inteiro + 1
+    retorna 0 := inteiro
+];

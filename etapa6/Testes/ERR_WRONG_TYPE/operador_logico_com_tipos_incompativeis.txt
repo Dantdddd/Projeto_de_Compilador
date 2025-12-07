@@ -1,0 +1,13 @@
+// Objetivo: Verificar se operadores lógicos (&, |) também falham com tipos mistos (inteiro e decimal), conforme a especificação.
+// Esperado: ERR_WRONG_TYPE na linha 'se (i & d)', pois a operação envolve tipos incompatíveis.
+
+principal -> inteiro :=
+[
+    var i := inteiro com 1
+    var d := decimal com 1.0
+
+    se (i & d) [
+        // corpo do if
+    ]
+    retorna 0 := inteiro
+];

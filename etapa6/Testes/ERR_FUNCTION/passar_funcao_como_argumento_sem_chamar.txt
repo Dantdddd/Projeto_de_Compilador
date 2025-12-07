@@ -1,0 +1,20 @@
+// Objetivo: detectar passagem de função como se fosse argumento-valor para outra função.
+// Esperado: ERR_FUNCTION na linha
+//           'usa(incrementa)'
+//           porque 'incrementa' foi declarado como função e deveria ter sido chamado: 'incrementa(1)', por exemplo.
+
+incrementa -> inteiro com x := inteiro :=
+[
+    retorna x + 1 := inteiro
+],
+
+usa -> inteiro com v := inteiro :=
+[
+    retorna v := inteiro
+],
+
+principal -> inteiro :=
+[
+    usa(incrementa)
+    retorna 0 := inteiro
+];

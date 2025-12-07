@@ -1,0 +1,16 @@
+// Objetivo: detectar chamada com número menor de argumentos do que o declarado.
+// Esperado: ERR_MISSING_ARGS na linha
+//           'r := soma_e_multiplica(10)'
+//           porque falta o segundo argumento 'b'.
+
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    retorna a + b := inteiro
+],
+
+principal -> inteiro :=
+[
+    var r := inteiro
+    r := soma_e_multiplica(10)
+    retorna 0 := inteiro
+];

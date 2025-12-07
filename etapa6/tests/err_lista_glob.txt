@@ -1,0 +1,3 @@
+// Erro: vírgula extra antes do ponto e vírgula
+var g := inteiro,
+;

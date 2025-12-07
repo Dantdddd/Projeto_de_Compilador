@@ -1,0 +1,15 @@
+// Objetivo: testar função com parâmetros de tipos diferentes e chamada com tipos invertidos.
+// Esperado: ERR_WRONG_TYPE_ARGS na linha
+//           'mistura(1.0, 10)'
+//           porque o primeiro parâmetro deveria ser inteiro e o segundo decimal.
+
+mistura -> inteiro com x := inteiro, y := decimal :=
+[
+    retorna x := inteiro
+],
+
+principal -> inteiro :=
+[
+    mistura(1.0, 10)
+    retorna 0 := inteiro
+];

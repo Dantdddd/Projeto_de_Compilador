@@ -1,0 +1,15 @@
+// Objetivo: caso maior, com três parâmetros, para testar validação posição a posição.
+// Esperado: ERR_WRONG_TYPE_ARGS na linha
+//           'processa(1, 2.0, 3.0)'
+//           porque o terceiro parâmetro deveria ser inteiro e foi passado decimal.
+
+processa -> inteiro com a := inteiro, b := decimal, c := inteiro :=
+[
+    retorna a := inteiro
+],
+
+principal -> inteiro :=
+[
+    processa(1, 2.0, 3.0)
+    retorna 0 := inteiro
+];

@@ -1,0 +1,5 @@
+// Objetivo: detectar redeclaração de variável global.
+// Esperado: ERR_DECLARED na segunda declaração 'var g_variavel_decimal := decimal', pois o identificador já foi declarado no escopo global.
+
+var g_variavel_decimal := decimal,
+var g_variavel_decimal := decimal;

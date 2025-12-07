@@ -1,0 +1,14 @@
+// Objetivo: impedir que uma função retorne outra função como se fosse valor sem chamada.
+// Esperado: ERR_FUNCTION na linha
+//           'retorna outra_funcao := inteiro'
+//           porque 'outra_funcao' é função e está sendo retornada como variável.
+
+outra_funcao -> inteiro :=
+[
+    retorna 42 := inteiro
+],
+
+principal -> inteiro :=
+[
+    retorna outra_funcao := inteiro
+];

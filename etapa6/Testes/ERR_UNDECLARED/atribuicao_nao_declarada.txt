@@ -1,0 +1,11 @@
+// Objetivo: verificar se o compilador detecta uso de identificador em atribuição antes de qualquer declaração dele.
+// Esperado: ERR_UNDECLARED na linha
+//           'resultado_decimal := 3'
+//           porque 'resultado_decimal' nunca foi declarado neste escopo nem em escopos externos.
+
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    resultado_decimal := 3
+
+    retorna 0 := inteiro
+];

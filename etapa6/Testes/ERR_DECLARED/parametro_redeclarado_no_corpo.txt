@@ -1,0 +1,8 @@
+// Objetivo: impedir que dentro da função seja declarada uma variável com o mesmo nome de um parâmetro.
+// Esperado: ERR_DECLARED na linha 'var x := inteiro', pois o parâmetro x já existe no escopo da função.
+
+soma -> inteiro com x := inteiro, y := inteiro :=
+[
+    var x := inteiro
+    retorna 0 := inteiro
+];

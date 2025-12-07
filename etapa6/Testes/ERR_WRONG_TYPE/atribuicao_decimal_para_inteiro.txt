@@ -1,0 +1,11 @@
+// Objetivo: garantir que atribuição de decimal a variável inteira gera erro de tipo.
+// Esperado: ERR_WRONG_TYPE na linha
+//           'x := 2.5'
+//           porque 'x' foi declarada como inteiro.
+
+principal -> inteiro :=
+[
+    var x := inteiro
+    x := 2.5
+    retorna 0 := inteiro
+];

@@ -1,0 +1,16 @@
+// Objetivo: mostrar que não há conflito quando existe uma função chamada 'imprime' e, em outra função ('principal'),
+//           é declarada uma variável com outro nome ('imprime_local') — isto é, nomes diferentes não geram colisão
+//           de símbolo.
+// Esperado: sem erro — todas as declarações ocorrem em escopos diferentes e com nomes diferentes.
+
+imprime -> inteiro com v := inteiro :=
+[
+    retorna 0 := inteiro
+],
+
+principal -> inteiro :=
+[
+    var imprime_local := inteiro com 1
+    imprime_local := 2
+    retorna 0 := inteiro
+];

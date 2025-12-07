@@ -1,0 +1,13 @@
+// Objetivo: garantir que um identificador de função não pode ser usado como expressão de condição em um 'se'.
+// Esperado: ERR_FUNCTION na linha 'se (minha_funcao)', pois 'minha_funcao' é uma função e está sendo usada como variável.
+
+minha_funcao -> inteiro :=
+[
+    retorna 1 := inteiro
+],
+
+principal -> inteiro :=
+[
+    se (minha_funcao) [ ]
+    retorna 0 := inteiro
+];

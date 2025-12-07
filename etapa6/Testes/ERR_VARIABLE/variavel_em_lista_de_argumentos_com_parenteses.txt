@@ -1,0 +1,12 @@
+// Objetivo: caso em que foi escrito parênteses por engano após uma variável em expressão.
+// Esperado: ERR_VARIABLE na linha
+//           'x := 1 + contador()'
+//           porque 'contador' é variável e não função.
+
+principal -> inteiro :=
+[
+    var contador := inteiro com 0
+    var x := inteiro
+    x := 1 + contador()
+    retorna 0 := inteiro
+];

@@ -1,0 +1,23 @@
+// Objetivo: testar erro de tipo em chamada interna que é usada como argumento de outra chamada.
+// Esperado: ERR_WRONG_TYPE_ARGS na linha
+//           'soma_e_multiplica(1.5, 2.5)'
+//           (a interna) porque ela recebe inteiros, e isso acontece antes de passar o resultado para 'usa'.
+//
+// Observação: o erro está na chamada interna, não na externa.
+
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    retorna a + b := inteiro
+],
+
+usa -> inteiro com v := inteiro :=
+[
+    retorna v := inteiro
+],
+
+principal -> inteiro :=
+[
+    var r := inteiro
+    r := usa( soma_e_multiplica(1.5, 2.5) )
+    retorna 0 := inteiro
+];

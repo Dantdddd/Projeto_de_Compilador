@@ -1,0 +1,13 @@
+// Objetivo: garantir que o tipo de uma expressão passada como argumento é verificado corretamente.
+// Esperado: ERR_WRONG_TYPE_ARGS na linha 'aceita_inteiro(5.0 * 2.0)', pois a expressão resulta em um decimal, mas a função espera um inteiro.
+
+aceita_inteiro -> inteiro com x := inteiro :=
+[
+    retorna x := inteiro
+],
+
+principal -> inteiro :=
+[
+    aceita_inteiro(5.0 * 2.0)
+    retorna 0 := inteiro
+];

@@ -1,0 +1,9 @@
+// Objetivo: verificar que o tipo do 'retorna' deve ser compatível com o tipo declarado da função.
+// Esperado: ERR_WRONG_TYPE na linha
+//           'retorna 3.14 := decimal'
+//           porque a função foi declarada '-> inteiro'.
+
+funcao_inteira -> inteiro :=
+[
+    retorna 3.14 := decimal
+];

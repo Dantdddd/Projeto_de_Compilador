@@ -1,0 +1,16 @@
+// Objetivo: garantir que, mesmo com quantidade correta de argumentos, o tipo de cada argumento é validado.
+// Esperado: ERR_WRONG_TYPE_ARGS na linha
+//           'soma_e_multiplica(1.5, 2.5)'
+//           porque a função espera dois 'inteiro'.
+
+soma_e_multiplica -> inteiro com a := inteiro, b := inteiro :=
+[
+    retorna a + b := inteiro
+],
+
+principal -> inteiro :=
+[
+    var r := inteiro
+    r := soma_e_multiplica(1.5, 2.5)
+    retorna 0 := inteiro
+];

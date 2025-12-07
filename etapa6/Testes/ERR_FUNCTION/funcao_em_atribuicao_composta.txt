@@ -1,0 +1,16 @@
+// Objetivo: detectar uso de função em operação composta (lado direito) sem chamada.
+// Esperado: ERR_FUNCTION na linha
+//           'a := a + f'
+//           porque 'f' é função e está sendo somada como se fosse variável.
+
+f -> inteiro :=
+[
+    retorna 2 := inteiro
+],
+
+principal -> inteiro :=
+[
+    var a := inteiro com 0
+    a := a + f
+    retorna 0 := inteiro
+];

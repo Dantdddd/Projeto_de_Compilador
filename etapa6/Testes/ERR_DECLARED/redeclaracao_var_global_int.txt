@@ -1,0 +1,5 @@
+// Objetivo: detectar redeclaração de variável global.
+// Esperado: ERR_DECLARED na segunda declaração 'var g_variavel_inteira := inteiro', pois o identificador já foi declarado no escopo global.
+
+var g_variavel_inteira := inteiro,
+var g_variavel_inteira := inteiro;

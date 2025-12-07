@@ -1,0 +1,23 @@
+soma: nop 
+L0: nop 
+movl $1, -4(%rbp)
+jne L2
+L1: nop 
+movl -0(%rbp), -8(%rbp)
+movl $1, -12(%rbp)
+movl -8(%rbp), %eax
+cltd 
+idivl -12(%rbp)
+movl %edx, -16(%rbp)
+movl -16(%rbp), rfp, 4
+movl -4(%rbp), -20(%rbp)
+movl -0(%rbp), -24(%rbp)
+cmp_LE -24(%rbp), %eax
+cmpl -20(%rbp), %eax
+setle	%al
+movzbl	%al, %eax
+cmpl $0, %eax
+movl -28(%rbp), rfp, 4
+jmp L0
+L2: nop 
+movl $0, -32(%rbp)

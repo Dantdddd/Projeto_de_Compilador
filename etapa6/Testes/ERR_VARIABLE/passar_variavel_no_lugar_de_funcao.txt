@@ -1,0 +1,17 @@
+// Objetivo: detectar quando uma função espera que o argumento seja o resultado de outra função, mas o programador
+//           passa uma variável com parênteses, tornando-a chamada indevida.
+// Esperado: ERR_VARIABLE na linha
+//           'usa(valor())'
+//           porque 'valor' é variável e não função.
+
+usa -> inteiro com x := inteiro :=
+[
+    retorna x := inteiro
+],
+
+principal -> inteiro :=
+[
+    var valor := inteiro com 5
+    usa(valor())
+    retorna 0 := inteiro
+];
